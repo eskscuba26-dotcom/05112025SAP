@@ -218,7 +218,7 @@ export default function CutProduction({ user }) {
                     <SelectTrigger id="source">
                       <SelectValue placeholder="Ana malzeme seçin" />
                     </SelectTrigger>
-                    <SelectContent position="popper" sideOffset={4}>
+                    <SelectContent className="max-h-[300px] overflow-y-auto">
                       {productions.map((prod) => (
                         <SelectItem key={prod.id} value={prod.id}>
                           {prod.thickness_mm}mm × {prod.width_cm}cm × {prod.length_m}m ({prod.quantity} adet)
