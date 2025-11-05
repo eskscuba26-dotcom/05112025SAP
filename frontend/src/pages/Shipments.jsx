@@ -15,9 +15,11 @@ import { tr } from 'date-fns/locale';
 export default function Shipments({ user }) {
   const [shipments, setShipments] = useState([]);
   const [colors, setColors] = useState([]);
+  const [stocks, setStocks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingShipment, setEditingShipment] = useState(null);
+  const [useStockSelection, setUseStockSelection] = useState(true);
   const [formData, setFormData] = useState({
     shipment_date: '',
     customer_company: '',
@@ -36,6 +38,7 @@ export default function Shipments({ user }) {
   useEffect(() => {
     fetchShipments();
     fetchColors();
+    fetchStocks();
   }, []);
 
   const fetchShipments = async () => {
