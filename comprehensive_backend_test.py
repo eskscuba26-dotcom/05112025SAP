@@ -7,7 +7,7 @@ import requests
 import json
 from datetime import datetime, timezone
 
-BACKEND_URL = "https://scuba-network.preview.emergentagent.com/api"
+BACKEND_URL = "https://alldata-service.preview.emergentagent.com/api"
 ADMIN_USERNAME = "admin"
 ADMIN_PASSWORD = "admin123"
 
