@@ -149,7 +149,7 @@ export default function Production({ user }) {
                   <Input
                     id="planned_date"
                     data-testid="production-date"
-                    type="datetime-local"
+                    type="date"
                     value={formData.planned_date}
                     onChange={(e) => setFormData({ ...formData, planned_date: e.target.value })}
                     required
