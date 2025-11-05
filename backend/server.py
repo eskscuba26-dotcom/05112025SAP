@@ -1429,6 +1429,7 @@ async def get_stock(current_user = Depends(get_current_user)):
                 'width_cm': record['width_cm'],
                 'length_m': record['length_m'],
                 'color_name': record.get('color_name'),
+                'model': record.get('model', ''),
                 'total_quantity': 0,
                 'total_square_meters': 0
             }
