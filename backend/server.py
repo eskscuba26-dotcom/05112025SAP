@@ -324,10 +324,9 @@ class CostAnalysis(BaseModel):
 
 class DashboardStats(BaseModel):
     total_raw_materials: int
-    total_products: int
-    active_productions: int
-    pending_shipments: int
-    low_stock_materials: int
+    total_stock_models: int  # Ürün çeşidi (stokta kaç farklı model)
+    normal_production_stock: int  # Depo stok (Normal üretim)
+    cut_production_stock: int  # Kesilmiş ürün stok
 
 # Auth Helper Functions
 def hash_password(password: str) -> str:
