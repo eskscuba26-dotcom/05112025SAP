@@ -188,7 +188,7 @@ export default function Shipments({ user }) {
                     <Input
                       id="shipment_date"
                       data-testid="shipment-date"
-                      type="datetime-local"
+                      type="date"
                       value={formData.shipment_date}
                       onChange={(e) => setFormData({ ...formData, shipment_date: e.target.value })}
                       required
