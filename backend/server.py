@@ -982,9 +982,33 @@ async def create_cut_production(cut_data: CutProductionCreate, current_user = De
     doc['date'] = doc['date'].isoformat()
     await db.cut_production_records.insert_one(doc)
     
-    # DİKKAT: Kesilmiş üretim artık GET /stock API'sinden otomatik hesaplanıyor
-    # Manufacturing records içinde kayıtlı, stok hesaplaması üretim - sevkiyat şeklinde
-    # Burada ayrı stok kaydı tutmuyoruz, sadece kesilmiş üretim kaydını saklıyoruz
+    # STOK GÜNCELLEMESİ: Ana malzemeyi manufacturing_records'dan düşür
+    # Kullanılan ana malzeme adedi kadar quantity'yi azalt
+    await db.manufacturing_records.update_one(
+        {"id": cut_data.source_production_id},
+        {"$inc": {"quantity": -source_pieces_used}}
+    )
+    
+    # Kesilmiş ürünü yeni bir üretim kaydı olarak ekle
+    cut_manufacturing_record = {
+        "id": str(uuid.uuid4()),
+        "production_date": cut_record.date.isoformat(),
+        "machine": "Kesim",
+        "thickness_mm": source_thickness,
+        "width_cm": cut_data.cut_width_cm,
+        "length_m": cut_length_m,
+        "quantity": total_cut_pieces,
+        "square_meters": cut_square_meters,
+        "masura_type": None,
+        "masura_quantity": 0,
+        "color_material_id": None,
+        "color_name": cut_data.color if cut_data.color else None,
+        "model": f"{source_thickness}mm x {cut_data.cut_width_cm}cm x {int(cut_length_m*100)}cm (Kesik)",
+        "gas_consumption_kg": 0,
+        "created_by": current_user['username'],
+        "created_at": datetime.now(timezone.utc).isoformat()
+    }
+    await db.manufacturing_records.insert_one(cut_manufacturing_record)
     
     return cut_record
 
