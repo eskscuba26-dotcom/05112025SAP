@@ -196,7 +196,7 @@ export default function MaterialEntries({ user }) {
                     <Label htmlFor="entry_date">Giriş Tarihi</Label>
                     <Input
                       id="entry_date"
-                      type="datetime-local"
+                      type="date"
                       value={formData.entry_date}
                       onChange={(e) => setFormData({ ...formData, entry_date: e.target.value })}
                       required
