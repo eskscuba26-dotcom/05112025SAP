@@ -228,6 +228,54 @@ export default function Shipments({ user }) {
                   </div>
                 </div>
 
+                {/* STOK SEÇİMİ */}
+                <div className="space-y-2 border-t pt-4">
+                  <div className="flex items-center gap-4 mb-2">
+                    <Label>Sevk Edilecek Ürün:</Label>
+                    <div className="flex gap-2">
+                      <Button
+                        type="button"
+                        variant={useStockSelection ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => setUseStockSelection(true)}
+                      >
+                        Stoktan Seç
+                      </Button>
+                      <Button
+                        type="button"
+                        variant={!useStockSelection ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => setUseStockSelection(false)}
+                      >
+                        Manuel Giriş
+                      </Button>
+                    </div>
+                  </div>
+
+                  {useStockSelection && (
+                    <div className="space-y-2">
+                      <Label htmlFor="stock_select">Stoktan Ürün Seç</Label>
+                      <Select onValueChange={(value) => {
+                        const selected = stocks.find(s => `${s.thickness_mm}|${s.width_cm}|${s.length_m}` === value);
+                        if (selected) handleStockSelect(selected);
+                      }}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Stoktan ürün seçin" />
+                        </SelectTrigger>
+                        <SelectContent className="max-h-[300px] overflow-y-auto">
+                          {stocks.map((stock, idx) => (
+                            <SelectItem key={idx} value={`${stock.thickness_mm}|${stock.width_cm}|${stock.length_m}`}>
+                              {stock.thickness_mm}mm × {stock.width_cm}cm × {stock.length_m}m 
+                              ({stock.total_quantity} adet stokta)
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <p className="text-sm text-gray-500">* Stoktan seçim yaptıktan sonra boyutlar otomatik dolacak</p>
+                    </div>
+                  )}
+                </div>
+
                 <div className="grid grid-cols-3 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="thickness">Kalınlık (mm)</Label>
