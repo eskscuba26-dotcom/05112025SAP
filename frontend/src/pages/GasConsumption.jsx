@@ -66,7 +66,7 @@ export default function GasConsumption({ user }) {
   const handleEdit = (record) => {
     setEditingRecord(record);
     setFormData({
-      date: new Date(record.date).toISOString().slice(0, 16),
+      date: new Date(record.date).toISOString().slice(0, 10),
       total_gas_kg: record.total_gas_kg.toString()
     });
     setDialogOpen(true);
