@@ -90,6 +90,7 @@ export default function Stock() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b">
+                  <th className="text-left p-3 font-medium text-gray-600">Tip</th>
                   <th className="text-left p-3 font-medium text-gray-600">Kalınlık (mm)</th>
                   <th className="text-left p-3 font-medium text-gray-600">En (cm)</th>
                   <th className="text-left p-3 font-medium text-gray-600">Metre</th>
@@ -99,24 +100,38 @@ export default function Stock() {
                 </tr>
               </thead>
               <tbody>
-                {stockItems.map((item, index) => (
-                  <tr key={index} className="border-b hover:bg-gray-50" data-testid={`stock-row-${index}`}>
-                    <td className="p-3 font-medium">{item.thickness_mm}</td>
-                    <td className="p-3">{item.width_cm}</td>
-                    <td className="p-3">{item.length_m}</td>
-                    <td className="p-3">
-                      {item.color_name ? (
-                        <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-yellow-100 text-yellow-800">
-                          {item.color_name}
-                        </span>
-                      ) : (
-                        <span className="text-gray-400 text-xs">-</span>
-                      )}
-                    </td>
-                    <td className="p-3 font-bold text-green-600">{item.total_quantity.toLocaleString()}</td>
-                    <td className="p-3 font-medium text-indigo-600">{item.total_square_meters.toLocaleString('tr-TR', { maximumFractionDigits: 2 })}</td>
-                  </tr>
-                ))}
+                {stockItems.map((item, index) => {
+                  const isKesik = item.model && item.model.includes('Kesik');
+                  return (
+                    <tr key={index} className="border-b hover:bg-gray-50" data-testid={`stock-row-${index}`}>
+                      <td className="p-3">
+                        {isKesik ? (
+                          <span className="inline-flex items-center px-2 py-1 rounded text-xs font-bold bg-blue-100 text-blue-800">
+                            ✂️ Kesilmiş
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-green-100 text-green-800">
+                            🏭 Normal
+                          </span>
+                        )}
+                      </td>
+                      <td className="p-3 font-medium">{item.thickness_mm}</td>
+                      <td className="p-3">{item.width_cm}</td>
+                      <td className="p-3">{item.length_m}</td>
+                      <td className="p-3">
+                        {item.color_name ? (
+                          <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-yellow-100 text-yellow-800">
+                            {item.color_name}
+                          </span>
+                        ) : (
+                          <span className="text-gray-400 text-xs">-</span>
+                        )}
+                      </td>
+                      <td className="p-3 font-bold text-green-600">{item.total_quantity.toLocaleString()}</td>
+                      <td className="p-3 font-medium text-indigo-600">{item.total_square_meters.toLocaleString('tr-TR', { maximumFractionDigits: 2 })}</td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
             {stockItems.length === 0 && (
