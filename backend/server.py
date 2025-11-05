@@ -1242,7 +1242,11 @@ async def get_dashboard_stats(current_user = Depends(get_current_user)):
     # Üretimleri grupla
     for record in manufacturing:
         color_key = record.get('color_name', '') or ''
-        key = f"{record['thickness_mm']}|{record['width_cm']}|{record['length_m']}|{color_key}"
+        # Normalize to float to match shipments
+        thickness = float(record['thickness_mm'])
+        width = float(record['width_cm'])
+        length = float(record['length_m'])
+        key = f"{thickness}|{width}|{length}|{color_key}"
         
         if key not in stock_dict:
             stock_dict[key] = {
@@ -1255,7 +1259,11 @@ async def get_dashboard_stats(current_user = Depends(get_current_user)):
     # Sevkiyatları düş
     for shipment in shipments:
         color_key = shipment.get('color_name', '') or ''
-        key = f"{shipment['thickness_mm']}|{shipment['width_cm']}|{shipment['length_m']}|{color_key}"
+        # Normalize to float to match manufacturing
+        thickness = float(shipment['thickness_mm'])
+        width = float(shipment['width_cm'])
+        length = float(shipment['length_m'])
+        key = f"{thickness}|{width}|{length}|{color_key}"
         
         if key in stock_dict:
             stock_dict[key]['quantity'] -= shipment['quantity']
