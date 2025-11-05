@@ -8,8 +8,8 @@ import LoginPage from "@/pages/LoginPage";
 import DashboardLayout from "@/components/DashboardLayout";
 import Dashboard from "@/pages/Dashboard";
 import RawMaterials from "@/pages/RawMaterials";
-import Products from "@/pages/Products";
-import Production from "@/pages/Production";
+// import Products from "@/pages/Products"; // KALDIRILDI
+// import Production from "@/pages/Production"; // KALDIRILDI
 import Manufacturing from "@/pages/Manufacturing";
 import Stock from "@/pages/Stock";
 import Shipments from "@/pages/Shipments";
