@@ -1476,7 +1476,11 @@ async def get_stock(current_user = Depends(get_current_user)):
     # Subtract shipments
     for shipment in shipments:
         color_key = shipment.get('color_name', '') or ''
-        key = f"{shipment['thickness_mm']}|{shipment['width_cm']}|{shipment['length_m']}|{color_key}"
+        # Normalize to float to match manufacturing
+        thickness = float(shipment['thickness_mm'])
+        width = float(shipment['width_cm'])
+        length = float(shipment['length_m'])
+        key = f"{thickness}|{width}|{length}|{color_key}"
         
         if key in stock_dict:
             stock_dict[key]['total_quantity'] -= shipment['quantity']
