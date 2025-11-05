@@ -103,7 +103,7 @@ export default function Shipments({ user }) {
   const handleEdit = (shipment) => {
     setEditingShipment(shipment);
     setFormData({
-      shipment_date: new Date(shipment.shipment_date).toISOString().slice(0, 16),
+      shipment_date: new Date(shipment.shipment_date).toISOString().slice(0, 10),
       customer_company: shipment.customer_company || '',
       thickness_mm: shipment.thickness_mm.toString(),
       width_cm: shipment.width_cm.toString(),
