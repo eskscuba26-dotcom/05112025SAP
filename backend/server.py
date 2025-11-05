@@ -1226,23 +1226,54 @@ async def get_cost_analysis(current_user = Depends(get_current_user)):
 # Dashboard Routes
 @api_router.get("/dashboard/stats", response_model=DashboardStats)
 async def get_dashboard_stats(current_user = Depends(get_current_user)):
+    # Hammadde çeşidi
     total_raw_materials = await db.raw_materials.count_documents({})
-    total_products = await db.products.count_documents({})
-    active_productions = await db.production_orders.count_documents({
-        "status": {"$in": ["planned", "in_progress"]}
-    })
-    pending_shipments = await db.shipments.count_documents({"status": "pending"})
     
-    # Low stock materials
-    materials = await db.raw_materials.find({}, {"_id": 0}).to_list(1000)
-    low_stock_materials = sum(1 for m in materials if m['current_stock'] <= m['min_stock_level'])
+    # Stok hesaplama (üretim - sevkiyat)
+    manufacturing = await db.manufacturing_records.find({}, {"_id": 0}).to_list(10000)
+    shipments = await db.shipments.find({}, {"_id": 0}).to_list(10000)
+    
+    stock_dict = {}
+    normal_stock_total = 0
+    cut_stock_total = 0
+    
+    # Üretimleri grupla
+    for record in manufacturing:
+        color_key = record.get('color_name', '') or ''
+        key = f"{record['thickness_mm']}|{record['width_cm']}|{record['length_m']}|{color_key}"
+        
+        if key not in stock_dict:
+            stock_dict[key] = {
+                'quantity': 0,
+                'is_cut': record.get('model', '').find('Kesik') != -1
+            }
+        
+        stock_dict[key]['quantity'] += record['quantity']
+    
+    # Sevkiyatları düş
+    for shipment in shipments:
+        color_key = shipment.get('color_name', '') or ''
+        key = f"{shipment['thickness_mm']}|{shipment['width_cm']}|{shipment['length_m']}|{color_key}"
+        
+        if key in stock_dict:
+            stock_dict[key]['quantity'] -= shipment['quantity']
+    
+    # Pozitif stokları say
+    for key, data in stock_dict.items():
+        if data['quantity'] > 0:
+            if data['is_cut']:
+                cut_stock_total += data['quantity']
+            else:
+                normal_stock_total += data['quantity']
+    
+    # Kaç çeşit model stokta var
+    total_stock_models = sum(1 for data in stock_dict.values() if data['quantity'] > 0)
     
     return DashboardStats(
         total_raw_materials=total_raw_materials,
-        total_products=total_products,
-        active_productions=active_productions,
-        pending_shipments=pending_shipments,
-        low_stock_materials=low_stock_materials
+        total_stock_models=total_stock_models,
+        normal_production_stock=normal_stock_total,
+        cut_production_stock=cut_stock_total
     )
 
 # Manufacturing Routes
