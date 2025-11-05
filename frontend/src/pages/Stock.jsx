@@ -90,7 +90,6 @@ export default function Stock() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b">
-                  <th className="text-left p-3 font-medium text-gray-600">Model</th>
                   <th className="text-left p-3 font-medium text-gray-600">Kalınlık (mm)</th>
                   <th className="text-left p-3 font-medium text-gray-600">En (cm)</th>
                   <th className="text-left p-3 font-medium text-gray-600">Metre</th>
@@ -102,17 +101,6 @@ export default function Stock() {
               <tbody>
                 {stockItems.map((item, index) => (
                   <tr key={index} className="border-b hover:bg-gray-50" data-testid={`stock-row-${index}`}>
-                    <td className="p-3 font-medium">
-                      {item.model && item.model.includes('Kesik') ? (
-                        <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-blue-100 text-blue-800">
-                          ✂️ Kesilmiş
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-800">
-                          🏭 Normal Üretim
-                        </span>
-                      )}
-                    </td>
                     <td className="p-3 font-medium">{item.thickness_mm}</td>
                     <td className="p-3">{item.width_cm}</td>
                     <td className="p-3">{item.length_m}</td>
