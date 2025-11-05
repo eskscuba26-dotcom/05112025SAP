@@ -1453,7 +1453,11 @@ async def get_stock(current_user = Depends(get_current_user)):
     for record in manufacturing:
         # Key includes color if present, empty string if not
         color_key = record.get('color_name', '') or ''
-        key = f"{record['thickness_mm']}|{record['width_cm']}|{record['length_m']}|{color_key}"
+        # Normalize to float to match shipments
+        thickness = float(record['thickness_mm'])
+        width = float(record['width_cm'])
+        length = float(record['length_m'])
+        key = f"{thickness}|{width}|{length}|{color_key}"
         
         if key not in stock_dict:
             stock_dict[key] = {
