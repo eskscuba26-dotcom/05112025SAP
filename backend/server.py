@@ -1402,6 +1402,7 @@ class StockItem(BaseModel):
     width_cm: float
     length_m: float
     color_name: Optional[str] = None
+    model: Optional[str] = None
     total_quantity: int
     total_square_meters: float
 
