@@ -33,36 +33,28 @@ export default function Dashboard() {
       bgColor: 'bg-blue-50'
     },
     {
-      title: 'Ürün Çeşidi',
-      value: stats?.total_products || 0,
+      title: 'Ürün Çeşidi (Stokta)',
+      value: stats?.total_stock_models || 0,
       icon: Package,
       color: 'bg-green-500',
       textColor: 'text-green-600',
       bgColor: 'bg-green-50'
     },
     {
-      title: 'Aktif Üretim',
-      value: stats?.active_productions || 0,
+      title: 'Depo Stok (Normal)',
+      value: stats?.normal_production_stock || 0,
       icon: Factory,
       color: 'bg-purple-500',
       textColor: 'text-purple-600',
       bgColor: 'bg-purple-50'
     },
     {
-      title: 'Bekleyen Sevkiyat',
-      value: stats?.pending_shipments || 0,
-      icon: Truck,
+      title: 'Kesilmiş Ürün Stok',
+      value: stats?.cut_production_stock || 0,
+      icon: Package,
       color: 'bg-orange-500',
       textColor: 'text-orange-600',
       bgColor: 'bg-orange-50'
-    },
-    {
-      title: 'Düşük Stok Uyarısı',
-      value: stats?.low_stock_materials || 0,
-      icon: AlertTriangle,
-      color: 'bg-red-500',
-      textColor: 'text-red-600',
-      bgColor: 'bg-red-50'
     },
   ];
 
