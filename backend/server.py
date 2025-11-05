@@ -144,7 +144,7 @@ class ManufacturingRecord(BaseModel):
     length_m: float  # Metre
     quantity: int  # Adet
     square_meters: float  # Metrekare (otomatik hesaplanacak)
-    masura_type: MasuraType
+    masura_type: Optional[MasuraType] = None
     masura_quantity: int  # Masura Adedi
     color_material_id: Optional[str] = None  # Renk hammadde ID
     color_name: Optional[str] = None  # Renk adı
