@@ -108,7 +108,7 @@ export default function MaterialEntries({ user }) {
   const handleEdit = (entry) => {
     setEditingEntry(entry);
     setFormData({
-      entry_date: new Date(entry.entry_date).toISOString().slice(0, 16),
+      entry_date: new Date(entry.entry_date).toISOString().slice(0, 10),
       material_id: entry.material_id,
       quantity: entry.quantity.toString(),
       currency: entry.currency,
