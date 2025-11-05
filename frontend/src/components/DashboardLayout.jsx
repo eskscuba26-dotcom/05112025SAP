@@ -33,8 +33,8 @@ export default function DashboardLayout({ children, user }) {
     { path: '/', icon: LayoutDashboard, label: 'Gösterge Paneli' },
     { path: '/raw-materials', icon: Package, label: 'Hammaddeler' },
     { path: '/material-entries', icon: PackagePlus, label: 'Hammadde Girişleri' },
-    { path: '/products', icon: Boxes, label: 'Ürünler' },
-    { path: '/production', icon: Factory, label: 'Üretim Emirleri' },
+    // { path: '/products', icon: Boxes, label: 'Ürünler' }, // KALDIRILDI
+    // { path: '/production', icon: Factory, label: 'Üretim Emirleri' }, // KALDIRILDI
     { path: '/manufacturing', icon: Factory, label: 'Üretim Kayıtları' },
     { path: '/cut-production', icon: Scissors, label: 'Kesilmiş Üretim' },
     { path: '/stock', icon: Package, label: 'Stok Durumu' },
