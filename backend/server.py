@@ -982,33 +982,9 @@ async def create_cut_production(cut_data: CutProductionCreate, current_user = De
     doc['date'] = doc['date'].isoformat()
     await db.cut_production_records.insert_one(doc)
     
-    # Stok güncellemesi - Ana malzeme stoğundan düş
-    # Üretim kaydındaki model formatını oluştur
-    source_model_key = f"{source_thickness}mm_{source_width}cm_{source_length}m"
-    
-    # Stock collection'da kesilmiş ürün ekle veya güncelle
-    cut_model_key = f"{source_thickness}mm_{cut_data.cut_width_cm}cm_{cut_length_m}m_kesik"
-    
-    existing_stock = await db.stock.find_one({"model_key": cut_model_key})
-    if existing_stock:
-        await db.stock.update_one(
-            {"model_key": cut_model_key},
-            {"$inc": {"quantity": total_cut_pieces, "square_meters": cut_square_meters}}
-        )
-    else:
-        stock_doc = {
-            "id": str(uuid.uuid4()),
-            "model_key": cut_model_key,
-            "thickness_mm": source_thickness,
-            "width_cm": cut_data.cut_width_cm,
-            "length_m": cut_length_m,
-            "quantity": total_cut_pieces,
-            "square_meters": cut_square_meters,
-            "type": "Kesilmiş",
-            "color": cut_data.color,
-            "created_at": datetime.now(timezone.utc).isoformat()
-        }
-        await db.stock.insert_one(stock_doc)
+    # DİKKAT: Kesilmiş üretim artık GET /stock API'sinden otomatik hesaplanıyor
+    # Manufacturing records içinde kayıtlı, stok hesaplaması üretim - sevkiyat şeklinde
+    # Burada ayrı stok kaydı tutmuyoruz, sadece kesilmiş üretim kaydını saklıyoruz
     
     return cut_record
 
