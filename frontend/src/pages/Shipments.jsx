@@ -62,6 +62,25 @@ export default function Shipments({ user }) {
     }
   };
 
+  const fetchStocks = async () => {
+    try {
+      const response = await axios.get(`${API}/stock`);
+      setStocks(response.data);
+    } catch (error) {
+      console.error('Stoklar yüklenemedi:', error);
+    }
+  };
+
+  const handleStockSelect = (stock) => {
+    setFormData({
+      ...formData,
+      thickness_mm: stock.thickness_mm.toString(),
+      width_cm: stock.width_cm.toString(),
+      length_m: stock.length_m.toString(),
+      color_material_id: stock.color_name || ''
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
