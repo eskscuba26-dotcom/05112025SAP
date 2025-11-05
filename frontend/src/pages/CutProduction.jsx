@@ -60,8 +60,8 @@ export default function CutProduction({ user }) {
     return productions.find(p => p.id === formData.source_production_id);
   };
 
-  // Otomatik hesaplama
-  const calculateCutting = () => {
+  // Form değiştiğinde hesapla
+  useEffect(() => {
     const source = getSelectedSource();
     if (!source || !formData.cut_width_cm || !formData.cut_length_cm || !formData.requested_pieces) {
       setCalculations(null);
@@ -74,10 +74,20 @@ export default function CutProduction({ user }) {
     const cutLength = parseFloat(formData.cut_length_cm);
     const requested = parseInt(formData.requested_pieces);
 
+    if (isNaN(cutWidth) || isNaN(cutLength) || isNaN(requested)) {
+      setCalculations(null);
+      return;
+    }
+
     // 1 ana malzemeden kaç adet çıkar
     const piecesWidth = Math.floor(sourceWidth / cutWidth);
     const piecesLength = Math.floor(sourceLength / cutLength);
     const piecesPerSource = piecesWidth * piecesLength;
+
+    if (piecesPerSource === 0) {
+      setCalculations(null);
+      return;
+    }
 
     // Kaç ana malzeme gerekli
     const sourcePiecesUsed = Math.ceil(requested / piecesPerSource);
@@ -95,12 +105,7 @@ export default function CutProduction({ user }) {
       cutSquareMeters,
       excess: totalCutPieces - requested
     });
-  };
-
-  // Form değiştiğinde hesapla
-  useEffect(() => {
-    calculateCutting();
-  }, [formData.source_production_id, formData.cut_width_cm, formData.cut_length_cm, formData.requested_pieces]);
+  }, [formData.source_production_id, formData.cut_width_cm, formData.cut_length_cm, formData.requested_pieces, productions]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
