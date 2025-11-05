@@ -124,6 +124,7 @@ class ProductCreate(BaseModel):
 class MachineType(str, Enum):
     MACHINE_1 = "Makine 1"
     MACHINE_2 = "Makine 2"
+    CUTTING = "Kesim"
 
 class MasuraType(str, Enum):
     MASURA_100 = "Masura 100"
@@ -131,6 +132,7 @@ class MasuraType(str, Enum):
     MASURA_150 = "Masura 150"
     MASURA_200 = "Masura 200"
     NO_MASURA = "Masura Yok"
+    NONE = None
 
 class ManufacturingRecord(BaseModel):
     model_config = ConfigDict(extra="ignore")
